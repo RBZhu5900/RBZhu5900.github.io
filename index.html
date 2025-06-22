@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Knowledge Base</title>
+    <meta name="description" content="Personal Notes and Knowledge Sharing">
+    <meta property="og:title" content="Personal Knowledge Base">
+    <meta property="og:description" content="Personal Notes and Knowledge Sharing"
+    <meta property="og:type" content="website">
+    <link rel="icon" href="lib/media/favicon.png">
+    
+    <!-- Load existing styles -->
+    <link rel="stylesheet" href="lib/styles/obsidian.css">
+    <link rel="stylesheet" href="lib/styles/theme.css">
+    <link rel="stylesheet" href="lib/styles/global-variable-styles.css">
+    <link rel="stylesheet" href="lib/styles/main-styles.css">
+    
+    <style>
+        /* Custom styles for index page */
+        .hero-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--background-primary) 0%, var(--background-secondary) 100%);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--interactive-accent), var(--text-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-normal);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1000px;
+        }
+        
+        .note-card {
+            background: var(--background-secondary);
+            border: 1px solid var(--background-modifier-border);
+            border-radius: var(--radius-l);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .note-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--interactive-accent), var(--text-accent));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .note-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-color: var(--interactive-accent);
+        }
+        
+        .note-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-normal);
+        }
+        
+        .card-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .card-meta {
+            font-size: 0.9rem;
+            color: var(--text-faint);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .theme-toggle-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            border-top: 1px solid var(--background-modifier-border);
+        }
+        
+        .footer a {
+            color: var(--interactive-accent);
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-container {
+                padding: 1rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .theme-toggle-container {
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-content > * {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .hero-content > *:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .hero-content > *:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        .cards-container {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body class="publish css-settings-manager theme-dark show-inline-title show-ribbon is-fullscreen">
+    <!-- Theme toggle -->
+    <div class="theme-toggle-container">
+        <label class="theme-toggle-container" for="theme_toggle">
+            <input class="theme-toggle-input" type="checkbox" id="theme_toggle">
+            <div class="toggle-background"></div>
+        </label>
+    </div>
+
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1 class="hero-title">📚 Knowledge Base</h1>
+            <p class="hero-subtitle">Personal Learning & Research Notes</p>
+            <p class="hero-description">
+                Welcome to my personal knowledge base! This collection contains insights and learnings from my studies and research. 
+                Hope you find this content helpful and informative.
+            </p>
+            
+            <div class="cards-container">
+                <a href="code/blockchain-technology-and-applications.html" class="note-card">
+                    <div class="card-icon">⛓️</div>
+                    <h3 class="card-title">Blockchain Technology and Applications</h3>
+                    <p class="card-description">
+                        In-depth study of blockchain technology principles, including Bitcoin and Ethereum core mechanisms, 
+                        consensus algorithms and more. Detailed notes based on Peking University's open course.
+                    </p>
+                    <div class="card-meta">
+                        <span>📖</span>
+                        <span>Course Note</span>
+                        <span>•</span>
+                        <span>Blockchain</span>
+                    </div>
+                </a>
+                
+                <!-- More cards can be added as needed -->
+                <div class="note-card" style="border: 2px dashed var(--background-modifier-border); opacity: 0.6;">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">More Content Coming Soon</h3>
+                    <p class="card-description">
+                        Currently organizing more learning notes or technical documentation. Stay tuned!
+                    </p>
+                    <div class="card-meta">
+                        <span>⏳</span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>
+                Built with <a href="https://obsidian.md/" target="_blank">Obsidian</a> • 
+                Hosted on <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Load existing scripts -->
+    <script defer>
+        // Theme toggle functionality
+        let theme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        
+        function applyTheme(theme) {
+            if (theme === "dark") {
+                document.body.classList.add("theme-dark");
+                document.body.classList.remove("theme-light");
+                document.getElementById("theme_toggle").checked = false;
+            } else {
+                document.body.classList.add("theme-light");
+                document.body.classList.remove("theme-dark");
+                document.getElementById("theme_toggle").checked = true;
+            }
+        }
+        
+        applyTheme(theme);
+        
+        document.getElementById("theme_toggle").addEventListener("change", function() {
+            theme = this.checked ? "light" : "dark";
+            localStorage.setItem("theme", theme);
+            applyTheme(theme);
+        });
+        
+        // Device type detection
+        if (window.innerWidth < 480) {
+            document.body.classList.add("is-phone");
+        } else if (window.innerWidth < 768) {
+            document.body.classList.add("is-tablet");
+        } else if (window.innerWidth < 1024) {
+            document.body.classList.add("is-small-screen");
+        } else {
+            document.body.classList.add("is-large-screen");
+        }
+    </script>
+</body>
+</html> 
